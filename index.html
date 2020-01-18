@@ -192,7 +192,7 @@ var getWizardHeight = function (wizardWidth) {
   return 1.337 * wizardWidth; // Возвращаю расчитанное значение высоты волшебника
 };
 var getWizardX = function (width) {
-  return (width / 2) - (wizardWidth / 2); // Возвращаю значение точки волшебника по ширине
+  return (width - wizardWidth) / 2; // Возвращаю значение точки волшебника по ширине
 };
 var getWizardY = function (height) {
   return height / 3; // Возвращаю значение точки волшебника по высоте
