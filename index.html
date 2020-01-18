@@ -183,24 +183,19 @@
 
 <script>
 var fireballSize = 22; // Задаю размер фаербола волшебника
-var getFireballSpeed = function (left) {
-  return true ? 5 : 2; // Возвращаю значения при определенном условии параметра left
-};
 var wizardSpeed = 3; // Задаю скорость перемещения волшебника
 var wizardWidth = 70; // Задаю ширину волшебника
-var getWizardHeight = function () {
-  var wizardHeight = 1.337 * wizardWidth; // Вычисляю значение высоты волшебника с помощью коэфициента в зависимости от его ширины
-  return wizardHeight; // Вощвращаю расчитанное значение высоты волшебника
+var getFireballSpeed = function (left) {
+  return left ? 5 : 2; // Возвращаю значения при определенном условии параметра left
+};
+var getWizardHeight = function (wizardWidth) {
+  return 1.337 * wizardWidth; // Возвращаю расчитанное значение высоты волшебника
 };
 var getWizardX = function (width) {
-  var wizardCenter = wizardWidth / 2; // Нашел серидину волшебника
-  var widthCenter = width / 2; // Нашел серидину карты
-  var wizardOnCenter = widthCenter - wizardCenter; // Нашел точку волшебника на середине карты
-  return wizardOnCenter; // Вернул значение точки волшебника по ширине
+  return (width / 2) - (wizardWidth / 2); // Возвращаю значение точки волшебника по ширине
 };
 var getWizardY = function (height) {
-  var heightThird = height / 3; // Нашел треть высоты карты
-  return heightThird; // Вернул значение точки волшебника по высоте
+  return height / 3; // Возвращаю значение точки волшебника по высоте
 };
 </script>
 <script src="js/game.js"></script>
