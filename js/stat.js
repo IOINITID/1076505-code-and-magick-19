@@ -9,48 +9,68 @@ var FONT_GAP = 20;
 var BAR_HEIGHT = 150;
 var BAR_WIDTH = 40;
 var BAR_GAP = 50;
-var CLOUD_COLOR = '#ffffff';
-var CLOUD_SHADOW = 'rgba(0, 0, 0, 0.7)';
-// Функция отприсовки облака
+var cloudColor = '#ffffff';
+var textColor = '#000000';
+var cloudShadowColor = 'rgba(0, 0, 0, 0.7)';
+var textFont = 'PT Mono 16px';
+var playerBarColor = 'rgba(255, 0, 0, 1)';
+
+// Получение случайного числа
+var getRandomNumber = function (number) {
+  return Math.ceil(Math.random() * number);
+};
+
+// Получение оттенка синего цвета с случайным параметром насыыщенности
+var getBlueColorWithRandomSaturation = function () {
+  return 'hsl(240,' + getRandomNumber(100) + '%,' + '50%)';
+};
+
+// Отрисовка облака
 var renderCloud = function (ctx, x, y, color) {
   ctx.fillStyle = color;
   ctx.fillRect(x, y, CLOUD_WIDTH, CLOUD_HEIGHT);
 };
+
 // Функция нахождения максимального элемента в массиве
-var getMaxElement = function (arr) {
-  var maxElement = arr[0];
-  for (var i = 0; i < arr.length; i++) {
-    if (maxElement < arr[i]) {
-      maxElement = arr[i];
-    }
-  }
-  return maxElement;
+var getMaxElement = function (array) {
+  return Math.max.apply(null, array);
 };
-// Отрисовываю окно статистики с заданными параметрами
-window.renderStatistics = function (ctx, names, times) {
-  // Отрисовал тень для облака
-  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, CLOUD_SHADOW);
-  // Отрисовал фон для облака
-  renderCloud(ctx, CLOUD_X, CLOUD_Y, CLOUD_COLOR);
-  // Задал шрифт, его размер и цвет. Так же вывел в окно сообщение о победе
-  ctx.font = 'PT Mono 16px';
-  ctx.fillStyle = '#000000';
+
+// Отрисовка текста с позравлением
+var renderCongratulationText = function (ctx) {
+  ctx.font = textFont;
+  ctx.fillStyle = textColor;
   ctx.fillText('Ура вы победили!', CLOUD_X + CLOUD_GAP, CLOUD_Y + FONT_GAP);
   ctx.fillText('Список результатов:', CLOUD_X + CLOUD_GAP, CLOUD_Y + FONT_GAP * 2);
+};
+
+// Отрисовка текста гистограммы
+var renderBarText = function (ctx, names, times, item) {
+  ctx.fillStyle = textColor;
+  ctx.fillText(names[item], CLOUD_X + BAR_WIDTH + (BAR_GAP + BAR_WIDTH) * item, CLOUD_HEIGHT);
+  ctx.fillText(Math.floor(times[item]), CLOUD_X + BAR_WIDTH + (BAR_GAP + BAR_WIDTH) * item, CLOUD_Y + FONT_GAP * 4);
+};
+
+// Отрисовка столбика гистограммы
+var renderBar = function (ctx, times, item) {
   // Нашел максимальное время игроков
   var maxTime = getMaxElement(times);
-  // Отрисовал имена игроков и их результат в цикле
-  for (var i = 0; i < names.length; i++) {
-    ctx.fillText(names[i], CLOUD_X + BAR_WIDTH + (BAR_GAP + BAR_WIDTH) * i, CLOUD_HEIGHT);
-    ctx.fillText(Math.floor(times[i]), CLOUD_X + BAR_WIDTH + (BAR_GAP + BAR_WIDTH) * i, CLOUD_Y + FONT_GAP * 4);
-  }
-  // Меняю цвет столбиков игроков
-  for (var j = 0; j < names.length; j++) {
-    if (names[j] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = 'hsl(240,' + Math.floor(Math.random(100).toFixed(2) * 100) + '%,' + '50%)';
-    }
-    ctx.fillRect(CLOUD_X + BAR_WIDTH + (BAR_GAP + BAR_WIDTH) * j, CLOUD_HEIGHT - FONT_GAP, BAR_WIDTH, (-BAR_HEIGHT * times[j] / maxTime));
-  }
+  ctx.fillRect(CLOUD_X + BAR_WIDTH + (BAR_GAP + BAR_WIDTH) * item, CLOUD_HEIGHT - FONT_GAP, BAR_WIDTH, (-BAR_HEIGHT * times[item] / maxTime));
+};
+
+// Отрисовка всей гистограммы
+var renderBarChart = function (ctx, names, times) {
+  names.forEach(function (item, i) {
+    renderBarText(ctx, names, times, i);
+    ctx.fillStyle = item === 'Вы' ? playerBarColor : getBlueColorWithRandomSaturation();
+    renderBar(ctx, times, i);
+  });
+};
+
+// Отрисовываю окно статистики с заданными параметрами
+window.renderStatistics = function (ctx, names, times) {
+  renderCloud(ctx, CLOUD_X + CLOUD_GAP, CLOUD_Y + CLOUD_GAP, cloudShadowColor);
+  renderCloud(ctx, CLOUD_X, CLOUD_Y, cloudColor);
+  renderCongratulationText(ctx);
+  renderBarChart(ctx, names, times);
 };
