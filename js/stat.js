@@ -12,7 +12,7 @@ var BAR_GAP = 50;
 var cloudColor = '#ffffff';
 var textColor = '#000000';
 var cloudShadowColor = 'rgba(0, 0, 0, 0.7)';
-var textFont = 'PT Mono 16px';
+var textFont = '16px PT Mono';
 var playerBarColor = 'rgba(255, 0, 0, 1)';
 
 // Получение случайного числа
