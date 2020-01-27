@@ -1,5 +1,15 @@
 'use strict';
 
+// Получение максимального значения из массива
+var getMaxElement = function (array) {
+  return Math.max.apply(null, array);
+};
+
+// Получение случайного числа
+var getRandomNumber = function (number) {
+  return Math.ceil(Math.random() * number);
+};
+
 // Отрисовывка облака статистики с заданными параметрами
 window.renderStatistics = function (ctx, names, times) {
   // Определение локальных констант
@@ -7,16 +17,6 @@ window.renderStatistics = function (ctx, names, times) {
   var CLOUD_Y = 10;
   var CLOUD_GAP = 10;
   var BAR_WIDTH = 40;
-
-  // Получение максимального значения из массива
-  var getMaxElement = function (array) {
-    return Math.max.apply(null, array);
-  };
-
-  // Получение случайного числа
-  var getRandomNumber = function (number) {
-    return Math.ceil(Math.random() * number);
-  };
 
   // Получение синего цвета со случайным параметром насыщенности
   var getBlueColorWithRandomSaturation = function () {
