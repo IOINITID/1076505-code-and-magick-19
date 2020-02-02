@@ -52,8 +52,6 @@ var createRandomCharacters = function (quantityOfCharacters) {
   return characters;
 };
 
-var charactersList = createRandomCharacters(CHARACTERS_QUANTITY);
-
 // Отриовка персонажа
 var renderWizard = function (wizard) {
   // Получение шаблона
@@ -66,7 +64,7 @@ var renderWizard = function (wizard) {
 };
 
 // Отрисовка всех персонажей и добавление их на страницу
-var renderWizars = function (characterObjects) {
+var renderWizards = function (characterObjects) {
   // Получение фрагмента
   var fragment = document.createDocumentFragment();
   // Получение списка персонажей
@@ -93,8 +91,10 @@ var showSetupModal = function () {
   setupList.classList.remove('hidden');
 };
 
+var charactersList = createRandomCharacters(CHARACTERS_QUANTITY);
+
 // Отрисовка всех персонажей
-renderWizars(charactersList);
+renderWizards(charactersList);
 
 // Показывает модальное окно
 showSetupModal();
