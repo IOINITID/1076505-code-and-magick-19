@@ -5,6 +5,7 @@ var CHARACTER_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 
 var CHARACTER_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
 var CHARACTER_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
 var CHARACTER_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
+var CHARACTER_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var CHARACTERS_QUANTITY = 4;
 
 // Получение случайного числа (утилитная функция)
@@ -80,16 +81,16 @@ var renderWizards = function (characterObjects) {
 };
 
 // Открытие модального окна с настройкми
-var showSetupModal = function () {
-  // Получаем модальное окно с настройками
-  var setupModal = document.querySelector('.setup');
-  // Получаем окно похожих персонажей
-  var setupList = setupModal.querySelector('.setup-similar');
-  // Отображение окна настройки персонажа
-  setupModal.classList.remove('hidden');
-  // Отображение списка персонажей на странице
-  setupList.classList.remove('hidden');
-};
+// var showSetupModal = function () {
+//   // Получаем модальное окно с настройками
+//   var setupModal = document.querySelector('.setup');
+//   // Получаем окно похожих персонажей
+//   var setupList = setupModal.querySelector('.setup-similar');
+//   // Отображение окна настройки персонажа
+//   setupModal.classList.remove('hidden');
+//   // Отображение списка персонажей на странице
+//   setupList.classList.remove('hidden');
+// };
 
 var charactersList = createRandomCharacters(CHARACTERS_QUANTITY);
 
@@ -97,4 +98,92 @@ var charactersList = createRandomCharacters(CHARACTERS_QUANTITY);
 renderWizards(charactersList);
 
 // Показывает модальное окно
-showSetupModal();
+// showSetupModal();
+
+// Раздел открытия модального окна
+var ENTER_KEY = 'Enter';
+var ESC_KEY = 'Escape';
+var setup = document.querySelector('.setup');
+var setupOpenButton = document.querySelector('.setup-open');
+var setupCloseButton = setup.querySelector('.setup-close');
+var avatarIcon = setupOpenButton.querySelector('.setup-open-icon');
+var userNameField = setup.querySelector('.setup-user-name');
+var setupForm = setup.querySelector('.setup-wizard-form');
+var wizardCoatColor = setup.querySelector('.wizard-coat');
+var wizardEyesColor = setup.querySelector('.wizard-eyes');
+var wizardFireballColor = setup.querySelector('.setup-fireball');
+
+// Нажатие на кнопку открыть (аватар пользователя)
+var onSetupOpenButtonClick = function () {
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onEscapeButtonPress);
+};
+
+// Нажатие на кнопку открыть (аватар пользователя)
+var onSetupOpenButtonPress = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    setup.classList.remove('hidden');
+  }
+  document.addEventListener('keydown', onEscapeButtonPress);
+};
+
+// Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
+var onSetupCloseButtonClick = function () {
+  setup.classList.add('hidden');
+};
+
+// Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
+var onSetupCloseButtonPress = function (evt) {
+  if (evt.key === ENTER_KEY) {
+    setup.classList.add('hidden');
+  }
+};
+
+// Нажатие на кнопку Escape
+var onEscapeButtonPress = function (evt) {
+  if (evt.key === ESC_KEY && evt.target !== userNameField) {
+    setup.classList.add('hidden');
+  }
+};
+
+// Смена цвета плаща персонажа
+var onWizardCoatClick = function () {
+  var wizardCoatColorField = setup.querySelector('input[name=coat-color]');
+  var wizardCoatColorItem = getRandomElement(CHARACTER_COAT_COLORS);
+  wizardCoatColor.style.fill = wizardCoatColorItem;
+  wizardCoatColorField.value = wizardCoatColorItem;
+};
+
+// Смена цвета глаз персонажа
+var onWizardEyesClick = function () {
+  var wizardEyesColorFiled = setup.querySelector('input[name=eyes-color]');
+  var wizardEyesColorItem = getRandomElement(CHARACTER_EYES_COLORS);
+  wizardEyesColor.style.fill = wizardEyesColorItem;
+  wizardEyesColorFiled.value = wizardEyesColorItem;
+};
+
+// Смена цвета огненного шара персонажа
+var onWizardFireballClick = function () {
+  var wizardFireballColorFiled = setup.querySelector('input[name=fireball-color]');
+  var wizardFireballColorItem = getRandomElement(CHARACTER_FIREBALL_COLORS);
+  wizardFireballColor.style.backgroundColor = wizardFireballColorItem;
+  wizardFireballColorFiled.value = wizardFireballColorItem;
+};
+
+// Нажатие на персонажа
+var onWizardClick = function (evt) {
+  if (evt.target === wizardCoatColor) {
+    onWizardCoatClick();
+  } else if (evt.target === wizardEyesColor) {
+    onWizardEyesClick();
+  } else if (evt.target === wizardFireballColor) {
+    onWizardFireballClick();
+  }
+};
+
+// Добавление обработчиков
+setupOpenButton.addEventListener('click', onSetupOpenButtonClick);
+avatarIcon.addEventListener('keydown', onSetupOpenButtonPress);
+setupCloseButton.addEventListener('click', onSetupCloseButtonClick);
+setupCloseButton.addEventListener('keydown', onSetupCloseButtonPress);
+setupForm.addEventListener('click', onWizardClick);
