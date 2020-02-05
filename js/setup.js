@@ -7,6 +7,17 @@ var CHARACTER_COAT_COLORS = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146
 var CHARACTER_EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 var CHARACTER_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e848'];
 var CHARACTERS_QUANTITY = 4;
+var ENTER_KEY = 'Enter';
+var ESC_KEY = 'Escape';
+var setup = document.querySelector('.setup');
+var setupOpenButton = document.querySelector('.setup-open');
+var setupCloseButton = setup.querySelector('.setup-close');
+var avatarIcon = setupOpenButton.querySelector('.setup-open-icon');
+var userNameField = setup.querySelector('.setup-user-name');
+var setupForm = setup.querySelector('.setup-wizard-form');
+var wizardCoatColor = setup.querySelector('.wizard-coat');
+var wizardEyesColor = setup.querySelector('.wizard-eyes');
+var wizardFireballColor = setup.querySelector('.setup-fireball');
 
 // Получение случайного числа (утилитная функция)
 var getRandomNumber = function (number) {
@@ -101,17 +112,6 @@ renderWizards(charactersList);
 // showSetupModal();
 
 // Раздел открытия модального окна
-var ENTER_KEY = 'Enter';
-var ESC_KEY = 'Escape';
-var setup = document.querySelector('.setup');
-var setupOpenButton = document.querySelector('.setup-open');
-var setupCloseButton = setup.querySelector('.setup-close');
-var avatarIcon = setupOpenButton.querySelector('.setup-open-icon');
-var userNameField = setup.querySelector('.setup-user-name');
-var setupForm = setup.querySelector('.setup-wizard-form');
-var wizardCoatColor = setup.querySelector('.wizard-coat');
-var wizardEyesColor = setup.querySelector('.wizard-eyes');
-var wizardFireballColor = setup.querySelector('.setup-fireball');
 
 // Нажатие на кнопку открыть (аватар пользователя)
 var onSetupOpenButtonClick = function () {
@@ -123,19 +123,21 @@ var onSetupOpenButtonClick = function () {
 var onSetupOpenButtonPress = function (evt) {
   if (evt.key === ENTER_KEY) {
     setup.classList.remove('hidden');
+    document.addEventListener('keydown', onEscapeButtonPress);
   }
-  document.addEventListener('keydown', onEscapeButtonPress);
 };
 
 // Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
 var onSetupCloseButtonClick = function () {
   setup.classList.add('hidden');
+  document.removeEventListener('keydown', onEscapeButtonPress);
 };
 
 // Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
 var onSetupCloseButtonPress = function (evt) {
   if (evt.key === ENTER_KEY) {
     setup.classList.add('hidden');
+    document.removeEventListener('keydown', onEscapeButtonPress);
   }
 };
 
