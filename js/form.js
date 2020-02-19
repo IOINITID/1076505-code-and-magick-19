@@ -3,6 +3,10 @@
 (function () {
   // Раздел открытия модального окна
   // Нажатие на кнопку открыть (аватар пользователя)
+  var MODAL_TOP_POSITION = '80px';
+  var MODAL_LEFT_POSITION = '720px';
+  var setup = document.querySelector('.setup');
+
   var onSetupOpenButtonClick = function () {
     window.util.setup.classList.remove('hidden');
     document.addEventListener('keydown', onEscapeButtonPress);
@@ -20,6 +24,8 @@
   var onSetupCloseButtonClick = function () {
     window.util.setup.classList.add('hidden');
     document.removeEventListener('keydown', onEscapeButtonPress);
+    setup.style.left = MODAL_LEFT_POSITION;
+    setup.style.top = MODAL_TOP_POSITION;
   };
 
   // Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
@@ -27,6 +33,8 @@
     if (evt.key === window.util.ENTER_KEY) {
       window.util.setup.classList.add('hidden');
       document.removeEventListener('keydown', onEscapeButtonPress);
+      setup.style.left = MODAL_LEFT_POSITION;
+      setup.style.top = MODAL_TOP_POSITION;
     }
   };
 
@@ -34,6 +42,8 @@
   var onEscapeButtonPress = function (evt) {
     if (evt.key === window.util.ESC_KEY && evt.target !== window.util.userNameField) {
       window.util.setup.classList.add('hidden');
+      setup.style.left = MODAL_LEFT_POSITION;
+      setup.style.top = MODAL_TOP_POSITION;
     }
   };
 
