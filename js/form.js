@@ -2,7 +2,6 @@
 
 (function () {
   // Раздел открытия модального окна
-
   // Нажатие на кнопку открыть (аватар пользователя)
   var onSetupOpenButtonClick = function () {
     window.util.setup.classList.remove('hidden');
