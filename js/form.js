@@ -19,23 +19,20 @@
 
   // Сброс положения модального окна
   var resetModalWindow = function () {
-    var setup = document.querySelector('.setup');
-    setup.style.left = '';
-    setup.style.top = '';
+    window.util.setup.style.left = '';
+    window.util.setup.style.top = '';
+    window.util.setup.classList.add('hidden');
+    document.removeEventListener('keydown', onEscapeButtonPress);
   };
 
   // Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
   var onSetupCloseButtonClick = function () {
-    window.util.setup.classList.add('hidden');
-    document.removeEventListener('keydown', onEscapeButtonPress);
     resetModalWindow();
   };
 
   // Нажатие на кнопку закрыть (иконка закрыть в форме настройки)
   var onSetupCloseButtonPress = function (evt) {
     if (evt.key === window.util.ENTER_KEY) {
-      window.util.setup.classList.add('hidden');
-      document.removeEventListener('keydown', onEscapeButtonPress);
       resetModalWindow();
     }
   };
@@ -43,8 +40,6 @@
   // Нажатие на кнопку Escape
   var onEscapeButtonPress = function (evt) {
     if (evt.key === window.util.ESC_KEY && evt.target !== window.util.userNameField) {
-      window.util.setup.classList.add('hidden');
-      document.removeEventListener('keydown', onEscapeButtonPress);
       resetModalWindow();
     }
   };
