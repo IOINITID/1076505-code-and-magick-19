@@ -48,51 +48,30 @@
   };
 
   // Отрисовка всех персонажей и добавление их на страницу
-  // var renderWizards = function (characterObjects) {
-  //   // Получение фрагмента
-  //   var fragment = document.createDocumentFragment();
-  //   // Получение списка персонажей
-  //   var wizardsList = document.querySelector('.setup-similar-list');
+  var renderWizards = function (characterObjects) {
+    // Получение фрагмента
+    var fragment = document.createDocumentFragment();
+    // Получение списка персонажей
+    var wizardsList = document.querySelector('.setup-similar-list');
 
-  //   // Добавление всех персонажей в фрагмент
-  //   characterObjects.forEach(function (item) {
-  //     fragment.appendChild(renderWizard(item));
-  //   });
+    // Добавление всех персонажей в фрагмент
+    characterObjects.forEach(function (item, i) {
+      if (i < 4) {
+        fragment.appendChild(renderWizard(item));
+      }
+    });
 
-  //   // Добавление фрагмента на страницу
-  //   wizardsList.appendChild(fragment);
-  // };
+    // Добавление фрагмента на страницу
+    wizardsList.appendChild(fragment);
+  };
 
   // var charactersList = createRandomCharacters(window.util.CHARACTERS_QUANTITY);
 
   // Отрисовка всех персонажей
   // renderWizards(charactersList);
 
-  // window.backend.load(function (wizards) {
-  //   var fragment = document.createDocumentFragment();
-
-  //   var wizardsList = document.querySelector('.setup-similar-list');
-
-  //   wizards.forEach(function (item, i) {
-  //     if (i < 4) {
-  //       fragment.appendChild(renderWizard(item));
-  //     }
-  //   });
-
-  //   wizardsList.appendChild(fragment);
-
-  //   window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
-  // });
-
-  var onLoadSuccess = function (wizards) {
-    var fragment = document.createDocumentFragment();
-    var wizardsList = document.querySelector('.setup-similar-list');
-    wizards.forEach(function (item, i) {
-      if (i < 4) {
-        fragment.appendChild(renderWizard(item));
-      }
-    });
-    wizardsList.appendChild(fragment);
+  var onLoadSuccess = function (response) {
+    renderWizards(response);
     window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
   };
 
