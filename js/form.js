@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  // Раздел открытия модального окна
   // Нажатие на кнопку открыть (аватар пользователя)
   var onSetupOpenButtonClick = function () {
     window.util.setup.classList.remove('hidden');
@@ -84,4 +83,15 @@
   window.util.setupCloseButton.addEventListener('click', onSetupCloseButtonClick);
   window.util.setupCloseButton.addEventListener('keydown', onSetupCloseButtonPress);
   window.util.setupForm.addEventListener('click', onWizardClick);
+
+  // Отправка данных формы
+  var onSaveSuccess = function () {
+    window.util.setup.classList.add('hidden');
+  };
+
+  window.util.setupForm.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(window.util.setupForm), onSaveSuccess, window.util.onRequestError);
+    evt.preventDefault();
+  });
+
 })();
