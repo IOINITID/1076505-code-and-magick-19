@@ -48,6 +48,8 @@
     var wizardCoatColorItem = window.util.getRandomElement(window.util.CHARACTER_COAT_COLORS);
     window.util.wizardCoatColor.style.fill = wizardCoatColorItem;
     wizardCoatColorField.value = wizardCoatColorItem;
+    colorCoat = wizardCoatColorItem;
+    onEyesChange();
   };
 
   // Смена цвета глаз персонажа
@@ -56,6 +58,8 @@
     var wizardEyesColorItem = window.util.getRandomElement(window.util.CHARACTER_EYES_COLORS);
     window.util.wizardEyesColor.style.fill = wizardEyesColorItem;
     wizardEyesColorFiled.value = wizardEyesColorItem;
+    colorEyes = wizardEyesColorItem;
+    onCoatChange();
   };
 
   // Смена цвета огненного шара персонажа
@@ -93,5 +97,72 @@
     window.backend.save(new FormData(window.util.setupForm), onSaveSuccess, window.util.onRequestError);
     evt.preventDefault();
   });
+
+  var colorCoat;
+  var colorEyes;
+  var allWizards = [];
+
+  var getRank = function (wizard) {
+    var rank = 0;
+
+    if (wizard.colorCoat === colorCoat) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === colorEyes) {
+      rank += 1;
+    }
+
+    return rank;
+  };
+
+  var namesComparator = function (left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
+  };
+
+  var updateWizards = function () {
+    window.data.renderWizards(allWizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (rankDiff === 0) {
+        rankDiff = namesComparator(left.name, right.name);
+      }
+      return rankDiff;
+    }));
+  };
+
+  var onLoadSuccess = function (data) {
+    allWizards = data;
+    updateWizards();
+    window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
+  };
+
+  var lastTimeout;
+
+  var onEyesChange = function (color) {
+    colorEyes = color;
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      updateWizards();
+    }, 300);
+  };
+
+  var onCoatChange = function (color) {
+    colorCoat = color;
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      updateWizards();
+    }, 300);
+  };
+
+  window.backend.load(onLoadSuccess, window.util.onRequestError);
 
 })();
