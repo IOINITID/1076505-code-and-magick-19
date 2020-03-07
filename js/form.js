@@ -93,15 +93,18 @@
     window.util.setup.classList.add('hidden');
   };
 
+  // Событие отправки формы
   window.util.setupForm.addEventListener('submit', function (evt) {
     window.backend.save(new FormData(window.util.setupForm), onSaveSuccess, window.util.onRequestError);
     evt.preventDefault();
   });
 
+  // Сортировка похожих волшебников
   var colorCoat;
   var colorEyes;
   var allWizards = [];
 
+  // Получает рейтинг волшебника
   var getRank = function (wizard) {
     var rank = 0;
 
@@ -115,17 +118,22 @@
     return rank;
   };
 
+  // Сравнивает по имени
   var namesComparator = function (left, right) {
-    if (left > right) {
-      return 1;
-    } else if (left < right) {
-      return -1;
-    } else {
-      return 0;
-    }
+    return (left > right) ? 1 : -1;
   };
 
+  // Очищает имеющихся похожих волшебников
+  var clearWizards = function () {
+    var similarWizards = document.querySelectorAll('.setup-similar-item');
+    similarWizards.forEach(function (item) {
+      item.remove();
+    });
+  };
+
+  // Обновляет волшебников
   var updateWizards = function () {
+    clearWizards();
     window.data.renderWizards(allWizards.sort(function (left, right) {
       var rankDiff = getRank(right) - getRank(left);
       if (rankDiff === 0) {
@@ -135,6 +143,7 @@
     }));
   };
 
+  // Обработчик успешной загрузки данных
   var onLoadSuccess = function (data) {
     allWizards = data;
     updateWizards();
@@ -143,6 +152,7 @@
 
   var lastTimeout;
 
+  // Обработчик при изменении цвета глаз
   var onEyesChange = function (color) {
     colorEyes = color;
     if (lastTimeout) {
@@ -150,9 +160,10 @@
     }
     lastTimeout = window.setTimeout(function () {
       updateWizards();
-    }, 300);
+    }, 500);
   };
 
+  // Обработчик при изменении цвета плаща
   var onCoatChange = function (color) {
     colorCoat = color;
     if (lastTimeout) {
@@ -160,7 +171,7 @@
     }
     lastTimeout = window.setTimeout(function () {
       updateWizards();
-    }, 300);
+    }, 500);
   };
 
   window.backend.load(onLoadSuccess, window.util.onRequestError);

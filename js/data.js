@@ -54,10 +54,8 @@
     // Получение списка персонажей
     var wizardsList = document.querySelector('.setup-similar-list');
     // Добавление всех персонажей в фрагмент
-    characterObjects.forEach(function (item, i) {
-      if (i < 4) {
-        fragment.appendChild(renderWizard(item));
-      }
+    characterObjects.slice(0, 4).forEach(function (item) {
+      fragment.appendChild(renderWizard(item));
     });
     // Добавление фрагмента на страницу
     wizardsList.appendChild(fragment);
