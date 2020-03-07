@@ -150,28 +150,18 @@
     window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
   };
 
-  var lastTimeout;
+  var debouncedUpdate = window.debounce(updateWizards);
 
   // Обработчик при изменении цвета глаз
   var onEyesChange = function (color) {
     colorEyes = color;
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      updateWizards();
-    }, 500);
+    debouncedUpdate();
   };
 
   // Обработчик при изменении цвета плаща
   var onCoatChange = function (color) {
     colorCoat = color;
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      updateWizards();
-    }, 500);
+    debouncedUpdate();
   };
 
   window.backend.load(onLoadSuccess, window.util.onRequestError);
