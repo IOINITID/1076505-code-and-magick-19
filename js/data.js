@@ -43,7 +43,7 @@
     var wizardItem = templateFragment.cloneNode(true);
     wizardItem.querySelector('.setup-similar-label').textContent = wizard.name;
     wizardItem.querySelector('.wizard-coat').style.fill = wizard.colorCoat;
-    wizardItem.querySelector('.wizard-eyes').style.fill = wizard.eyesColor;
+    wizardItem.querySelector('.wizard-eyes').style.fill = wizard.colorEyes;
     return wizardItem;
   };
 
@@ -53,14 +53,10 @@
     var fragment = document.createDocumentFragment();
     // Получение списка персонажей
     var wizardsList = document.querySelector('.setup-similar-list');
-
     // Добавление всех персонажей в фрагмент
-    characterObjects.forEach(function (item, i) {
-      if (i < 4) {
-        fragment.appendChild(renderWizard(item));
-      }
+    characterObjects.slice(0, 4).forEach(function (item) {
+      fragment.appendChild(renderWizard(item));
     });
-
     // Добавление фрагмента на страницу
     wizardsList.appendChild(fragment);
   };
@@ -69,11 +65,34 @@
 
   // Отрисовка всех персонажей
   // renderWizards(charactersList);
+  // var onLoadSuccess = function (response) {
+  //   renderWizards(response);
+  //   window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
+  // };
 
-  var onLoadSuccess = function (response) {
-    renderWizards(response);
-    window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
+  // window.backend.load(onLoadSuccess, window.util.onRequestError);
+
+  // var colorCoat;
+  // var colorEyes;
+  // var allWizards = [];
+
+  // var updateWizards = function () {
+  //   var sameCoatWizards = allWizards.filter(function (it) {
+  //     return it.colorCoat === colorCoat;
+  //   });
+  //   renderWizards(sameCoatWizards);
+  // };
+
+  // var onLoadSuccess = function (data) {
+  //   allWizards = data;
+  //   updateWizards();
+  //   window.util.setup.querySelector('.setup-similar').classList.remove('hidden');
+  // };
+
+  // window.backend.load(onLoadSuccess, window.util.onRequestError);
+
+  window.data = {
+    renderWizards: renderWizards,
   };
 
-  window.backend.load(onLoadSuccess, window.util.onRequestError);
 })();
